@@ -3,7 +3,7 @@ package chapter04
 import chapter04.packs.email.Message as EmailMessage
 import chapter04.packs.email.send
 
-fun classesAndObjects() {
+fun classesAndObjects1() {
     // Классы и объекты:
     val person = Person()
     println("Результат запроса данных по персоне: ${person.name} в возрасте ${person.age}")
@@ -33,7 +33,8 @@ fun classesAndObjects() {
     println("Результат запроса типа машины: ${mustang.type}")
     mustang.about()
 
-    // Интерфейсы:
+    // ИНТЕРФЕЙСЫ
+    // Варианты использования реализованного интерфейса:
     ColoredPrinter().print()
     MonochromePrinter().print()
     fun doPrint(obj: Printable) = obj.print()
@@ -44,7 +45,18 @@ fun classesAndObjects() {
     val monochromePrinter: Printable = MonochromePrinter()
     monochromePrinter.print()
     // Множественная реализация интерфейсов:
-
+    val commonMonochromePrinter = MonochromePrinter()
+    commonMonochromePrinter.print().laminate()
+    // Реализация методов по умолчанию:
+    commonMonochromePrinter.print().laminate().cut()
+    // Реализация свойств:
+    val commonColoredPrinter = ColoredPrinter()
+    commonColoredPrinter.printWithBrightness(115u)
+    // Реализация свойств через конструктор:
+    commonMonochromePrinter.printWithBrightness(57u)
+    // Ромбовидное наследование интерфейсов решается единой реализацией всех методов с одним названием:
+    commonColoredPrinter.print().checkResult()
+    commonMonochromePrinter.print().laminate().checkResult().cut()
 }
 
 /** Класс Person с полями, конструкторами и методами */
@@ -72,7 +84,6 @@ class Person {
 
 /** Родительский класс NewPerson с методом */
 open class NewPerson(var name: String, var age: Int) {
-
     open fun printInfo() {
         println("Привет, меня зовут $name. Мне $age")
     }
@@ -119,21 +130,76 @@ class ClassicCar(override val model: String, override val year: Int): Car() {
     }
 }
 
-/** Интерфейс Printable с методом print */
+/** Интерфейс Printable с методами print и printWithBrightness */
 interface Printable {
-    fun print()
+    var brightness: UByte
+
+    fun print(): Printable
+
+    fun printWithBrightness(brightness: UByte): Printable
+
+    fun checkResult(): Printable {
+        println("Проверка качества печати")
+        return this
+    }
+}
+
+/** Интерфейс ILaminate с методами laminate и cut */
+interface ILaminate {
+    fun laminate(): ILaminate
+
+    fun cut(): ILaminate {
+        println("Обрезка по формату")
+        return this
+    }
+
+    fun checkResult(): ILaminate {
+        println("Проверка качества ламинирования")
+        return this
+    }
 }
 
 /** Класс ColoredPrinter, реализующий интерфейс Printable */
 class ColoredPrinter: Printable {
-    override fun print() {
+    override var brightness: UByte = 100u
+
+    override fun print(): ColoredPrinter {
         println("Цветная печать")
+        return this
+    }
+
+    override fun printWithBrightness(brightness: UByte): ColoredPrinter {
+        if (brightness <= 100u) {
+            this.brightness = brightness
+        }
+        println("Цветная печать с яркостью ${this.brightness}")
+        return this
     }
 }
 
-/** Класс MonochromePrinter, реализующий интерфейс Printable */
-class MonochromePrinter: Printable {
-    override fun print() {
+/** Класс MonochromePrinter, реализующий интерфейсы Printable и ILaminate */
+class MonochromePrinter(override var brightness: UByte = 100u): Printable, ILaminate {
+    override fun print(): MonochromePrinter {
         println("Черно-белая печать")
+        return this
+    }
+
+    override fun printWithBrightness(brightness: UByte): MonochromePrinter {
+        if (brightness <= 100u) {
+            this.brightness = brightness
+        }
+        println("Черно-белая печать с яркостью ${this.brightness}")
+        return this
+    }
+
+    override fun laminate(): MonochromePrinter {
+        println("Ламинирование")
+        return this
+    }
+
+    override fun checkResult(): MonochromePrinter {
+        super<Printable>.checkResult()
+        super<ILaminate>.checkResult()
+        return this
     }
 }
