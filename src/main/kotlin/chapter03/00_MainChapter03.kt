@@ -5,4 +5,6 @@ fun mainChapter03() {
     functions()
     // Анонимные функции:
     anonymousFunctions()
+    // Лямбда-выражения и замыкания:
+    lambdasAndClosures()
 }

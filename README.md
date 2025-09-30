@@ -13,4 +13,9 @@
 
 ---
 
+- Java 17+
+- Build and run using Intellij IDEA
+
+---
+
 *Бобриков Алексей, 2025*
