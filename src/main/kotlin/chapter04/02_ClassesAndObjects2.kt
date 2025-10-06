@@ -43,7 +43,12 @@ fun classesAndObjects2() {
     }
 
     // ДЕЛЕГИРОВАНИЕ
-    // Базовые детали:
+    // Базовая реализация:
+    val deviceSetting = DeviceSetting("Net Connector")
+    val device = Device(deviceSetting)
+    device.connect("Wi-Fi: DP-GUEST")
+    // Множественное делегирование:
+
 }
 
 /** Класс CardOwner с публичным вложенным классом */
@@ -152,3 +157,18 @@ enum class YesOrNo: IPrintFullAnswer {
 
     abstract fun printAnswer()
 }
+
+/** Интерфейс IConnection с одним методом */
+interface IConnection {
+    fun connect(netName: String)
+}
+
+/** Класс DeviceSettings, реализующий интерфейс IConnection */
+class DeviceSetting(val settingName: String): IConnection {
+    override fun connect(netName: String) {
+        println("Подключение к сети '$netName' через настройку '$settingName'")
+    }
+}
+
+/** Класс Device с делегированием метода connect объекту "c" */
+class Device(c: IConnection): IConnection by c
