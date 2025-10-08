@@ -52,6 +52,19 @@ fun classesAndObjects2() {
     val newDevice = NewDevice(connectModule, gpsModule)
     newDevice.connect("Wi-Fi: DP-MASTER")
     newDevice.findLocation()
+    // Переопределение функции:
+    val specialDevice = SpecialDevice(connectModule)
+    specialDevice.connect("НОВАЯ СЕТЬ")
+    // Делегирование свойств:
+    val speedometer = Speedometer(260)
+    val helicopter = Helicopter(speedometer)
+    println("Скорость вертолета: ${helicopter.velocity} км/ч")
+    // Переопределение свойств:
+    val plane = Plane(speedometer)
+    println("Скорость самолета: ${plane.velocity} км/ч")
+
+    // АНОНИМНЫЕ КЛАССЫ
+    //
 }
 
 /** Класс CardOwner с публичным вложенным классом */
@@ -173,6 +186,9 @@ class ConnectModule(val settingName: String): IConnection {
     }
 }
 
+/** Класс Device с делегированием метода connect объекту "c" */
+class Device(c: IConnection): IConnection by c
+
 /** Интерфейс ILocation с одним методом */
 interface ILocation {
     fun findLocation()
@@ -185,8 +201,28 @@ class GPSModule(): ILocation {
     }
 }
 
-/** Класс Device с делегированием метода connect объекту "c" */
-class Device(c: IConnection): IConnection by c
-
 /** Класс NewDevice с множественным делегированием метода connect объекту "c" и метода findLocation объекту "l" */
 class NewDevice(c: IConnection, l: ILocation): IConnection by c, ILocation by l
+
+/** Класс SpecialDevice с переопределением метода connect */
+class SpecialDevice(c: IConnection): IConnection by c {
+    override fun connect(netName: String) {
+        println("Подключение к сети '$netName' без настроек")
+    }
+}
+
+/** Интерфейс IVelocity с одним свойством */
+interface IVelocity {
+    val velocity: Int
+}
+
+/** Класс Speedometer, реализующий интерфейс IVelocity */
+class Speedometer(override val velocity: Int): IVelocity
+
+/** Класс Helicopter с делегированием свойства velocity объекту "v" */
+class Helicopter(v: IVelocity) : IVelocity by v
+
+/** Класс Plane с переопределением свойства velocity */
+class Plane(v: IVelocity) : IVelocity by v {
+    override val velocity = 975
+}
