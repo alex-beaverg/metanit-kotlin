@@ -44,11 +44,14 @@ fun classesAndObjects2() {
 
     // ДЕЛЕГИРОВАНИЕ
     // Базовая реализация:
-    val deviceSetting = DeviceSetting("Net Connector")
-    val device = Device(deviceSetting)
+    val connectModule = ConnectModule("Net Connector")
+    val device = Device(connectModule)
     device.connect("Wi-Fi: DP-GUEST")
     // Множественное делегирование:
-
+    val gpsModule = GPSModule()
+    val newDevice = NewDevice(connectModule, gpsModule)
+    newDevice.connect("Wi-Fi: DP-MASTER")
+    newDevice.findLocation()
 }
 
 /** Класс CardOwner с публичным вложенным классом */
@@ -163,12 +166,27 @@ interface IConnection {
     fun connect(netName: String)
 }
 
-/** Класс DeviceSettings, реализующий интерфейс IConnection */
-class DeviceSetting(val settingName: String): IConnection {
+/** Класс ConnectModule, реализующий интерфейс IConnection */
+class ConnectModule(val settingName: String): IConnection {
     override fun connect(netName: String) {
         println("Подключение к сети '$netName' через настройку '$settingName'")
     }
 }
 
+/** Интерфейс ILocation с одним методом */
+interface ILocation {
+    fun findLocation()
+}
+
+/** Класс GPSModule, реализующий интерфейс ILocation */
+class GPSModule(): ILocation {
+    override fun findLocation() {
+        println("Местоположение определено")
+    }
+}
+
 /** Класс Device с делегированием метода connect объекту "c" */
 class Device(c: IConnection): IConnection by c
+
+/** Класс NewDevice с множественным делегированием метода connect объекту "c" и метода findLocation объекту "l" */
+class NewDevice(c: IConnection, l: ILocation): IConnection by c, ILocation by l
