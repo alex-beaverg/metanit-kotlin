@@ -64,7 +64,35 @@ fun classesAndObjects2() {
     println("Скорость самолета: ${plane.velocity} км/ч")
 
     // АНОНИМНЫЕ КЛАССЫ
-    //
+    // Реализация на лету:
+    val employee = object {
+        val name = "Алексей"
+        fun onboard() {
+            println("Добро пожаловать на борт, $name")
+        }
+    }
+    println("Имя сотрудника: ${employee.name}")
+    employee.onboard()
+    // Глобальная реализация:
+    println("Имя покупателя: ${Customer.NAME}")
+    Customer.buySomething()
+    // Наследование анонимным классом:
+    val cat = object: Animal(15) {
+        override fun getInfo() {
+            println("Кошка может прожить $age лет")
+        }
+    }
+    cat.getInfo()
+    // Анонимный объект как аргумент функции:
+    go(object: Animal(30) {})
+    // Анонимный объект как результат функции:
+    val table = createSomething("Стол")
+    table.getInfo()
+    val chair = createSomething("Стул")
+    chair.getInfo()
+
+    // COMPANION-ОБЪЕКТЫ
+    // Базовая реализация:
 }
 
 /** Класс CardOwner с публичным вложенным классом */
@@ -225,4 +253,30 @@ class Helicopter(v: IVelocity) : IVelocity by v
 /** Класс Plane с переопределением свойства velocity */
 class Plane(v: IVelocity) : IVelocity by v {
     override val velocity = 975
+}
+
+/** Анонимный объект */
+object Customer {
+    const val NAME = "Дима"
+    fun buySomething() {
+        println("$NAME купил какую-то вещь")
+    }
+}
+
+/** Класс для наследования */
+open class Animal(val age: Int) {
+    open fun getInfo() {
+        println("Животное может прожить $age лет")
+    }
+}
+
+/** Функция с анонимным параметром */
+fun go(animal: Animal) {
+    println("Животное, которое может прожить ${animal.age} лет, может двигаться")
+}
+
+/** Функция с анонимным возвращаемым объектом */
+private fun createSomething(name: String) = object {
+    val name = name
+    fun getInfo() = println("Создан объект ${this.name}")
 }
