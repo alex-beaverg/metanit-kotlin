@@ -92,7 +92,16 @@ fun classesAndObjects2() {
     chair.getInfo()
 
     // COMPANION-ОБЪЕКТЫ
-    // Базовая реализация:
+    // Статические объекты:
+    SomeObject()
+    SomeObject()
+    println("Количество созданных объектов класса SomeObject: ${SomeObject.counter}")
+    // Статические методы:
+    NewObject()
+    NewObject()
+    NewObject()
+    NewObject.printCounter()
+    // Наследование на companion-объекты не распространяется!!!
 }
 
 /** Класс CardOwner с публичным вложенным классом */
@@ -279,4 +288,25 @@ fun go(animal: Animal) {
 private fun createSomething(name: String) = object {
     val name = name
     fun getInfo() = println("Создан объект ${this.name}")
+}
+
+/** Класс с объектом-компаньоном */
+class SomeObject() {
+    init {
+        counter++
+    }
+    companion object {
+        var counter = 0
+    }
+}
+
+/** Класс с объектом-компаньоном с методом */
+class NewObject() {
+    init {
+        counter++
+    }
+    companion object {
+        private var counter = 0
+        fun printCounter() = println("Количество созданных объектов класса NewObject: $counter")
+    }
 }
