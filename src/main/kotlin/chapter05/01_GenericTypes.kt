@@ -16,11 +16,18 @@ fun genericTypes() {
         println("Элемент наибольшего массива: $item")
     }
     // Ограничения обобщений:
-    println("Большее из двух значений 5 и 10: ${compareObjects(5, 10)}")
+    println("Большее из двух значений A и R: ${compareObjects("A", "R")}")
     val discountPrice = DiscountPrice(0.85)
     println("Цена 100 руб с учетом скидки 0.85: ${calculatePrice(100.0, discountPrice)}")
     // Несколько ограничений:
-
+    println("Большее из двух значений 5 и 10: ${compareNumbers(5, 10)}")
+    // Ограничения в классах:
+    val email = EmailMessage("Привет, друг!")
+    val outlook = Messenger<EmailMessage>()
+    outlook.send(email)
+    val sms = SmsMessage("Привет, друг, чего не отвечаешь на е-мэйл?")
+    val telegram = Messenger<SmsMessage>()
+    telegram.send(sms)
 }
 
 /** Класс с обобщенными типами */
@@ -67,5 +74,38 @@ fun<T: Discount> calculatePrice(price: Double, discount: T) : Double {
     return price * discount.discountValue
 }
 
-/** Класс, реализующий интерфейс с ограниченным обобщением */
+/** Класс с ограниченным обобщением, реализующий интерфейс */
 class DiscountPrice(override val discountValue: Double) : Discount
+
+/** Функция с обобщениями с двойным ограничением */
+fun <T> compareNumbers(arg1: T, arg2: T) : T where T : Comparable<T>, T: Number {
+    if(arg1 > arg2) return arg1
+    return  arg2
+}
+
+/** Класс с ограничениями обобщения */
+class Messenger<T>() where T: Message, T: Logger {
+    fun send(mes: T) {
+        mes.log()
+    }
+}
+
+/** Интерфейс с одним свойством */
+interface Message {
+    val text: String
+}
+
+/** Интерфейс с одним методом */
+interface Logger {
+    fun log()
+}
+
+/** Класс с ограничениями обобщения, реализующий интерфейсы */
+class EmailMessage(override val text: String) : Message, Logger {
+    override fun log() = println("Отправка Е-мэйл: $text")
+}
+
+/** Класс с ограничениями обобщения, реализующий интерфейсы */
+class SmsMessage(override val text: String): Message, Logger{
+    override fun log() = println("Отправка СМС: $text")
+}
