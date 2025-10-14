@@ -3,6 +3,8 @@ package chapter06
 fun mainChapter06() {
     // Исключения:
     exceptions()
-    // Null и nullable типы:
+    // Null и Nullable типы:
     nullAndNullableTypes()
+    // Преобразование типов:
+    convertTypes()
 }
