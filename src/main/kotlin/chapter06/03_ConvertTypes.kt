@@ -1,5 +1,7 @@
 package chapter06
 
+import java.util.Date
+
 fun convertTypes() {
     // ПРЕОБРАЗОВАНИЕ ТИПОВ
     // Базовая реализация:
@@ -9,7 +11,7 @@ fun convertTypes() {
     // Такие преобразования лучше делать через исключения:
     str = "Число"
     try {
-        println("Это не выведется на печать: ${str.toInt()}")
+        println("Это вызовет исключение: ${str.toInt()}")
     } catch(e: Exception){
         println("Исключение при преобразовании типов: ${e.message}")
     }
@@ -28,7 +30,17 @@ fun convertTypes() {
         println("${catOwner.name} владелец не кота по имени ${catOwner.pet.name}")
     }
     // Явные преобразования и оператор "as":
-
+    var name: String? = "Саша"
+    val otherName: String = name as String
+    println("Ненулевое значение String? преобразовали в String: $otherName")
+    name = if (Date().time % 2 == 0L) null else "Саша"
+    try {
+        println("Это может вызвать исключение: ${name as String}")
+    } catch (e: NullPointerException) {
+        println("Исключение при преобразовании типов: ${e.message}")
+    }
+    println("Пробуем определить цвет кота если это не кот: ${checkCatColor(dog)}")
+    println("Пробуем определить цвет кота если это кот: ${checkCatColor(cat)}")
 }
 
 /** Класс для наследования */
@@ -38,12 +50,12 @@ open class Pet(val name: String)
 class Cat(name: String, val color: String): Pet(name)
 
 /** Функция проверки на котика */
-fun isKitty(pet: Pet) : Boolean {
+fun isKitty(pet: Pet): Boolean {
     return pet is Cat
 }
 
 /** Функция проверки на не котика */
-fun isNotKitty(pet: Pet) : Boolean {
+fun isNotKitty(pet: Pet): Boolean {
     return pet !is Cat
 }
 
@@ -51,3 +63,6 @@ fun isNotKitty(pet: Pet) : Boolean {
 class CatOwner(val name: String) {
     var pet: Pet = Cat("Васька", "Белый")
 }
+
+/** Функция проверки цвета животного, если это кот */
+fun checkCatColor(pet: Pet) = (pet as? Cat)?.color ?: "Это не кот"

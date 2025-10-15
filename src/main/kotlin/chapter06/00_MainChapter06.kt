@@ -7,4 +7,6 @@ fun mainChapter06() {
     nullAndNullableTypes()
     // Преобразование типов:
     convertTypes()
+    // Функции расширения:
+    extensionFunctions()
 }
