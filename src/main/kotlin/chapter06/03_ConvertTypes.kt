@@ -21,6 +21,13 @@ fun convertTypes() {
     println("Проверим, является ли ${cat.color} ${cat.name} котом (да): ${isKitty(cat)}")
     println("Проверим, является ли ${cat.color} ${cat.name} не котом (нет): ${isNotKitty(cat)}")
     // К изменяемым типам var (в свойствах) оператор is не применяется:
+    val catOwner = CatOwner("Вася")
+    if (catOwner.pet is Cat) {
+//        println("${catOwner.pet.color} ${catOwner.pet.name} - это кот") // тут ошибка из-за того что pet - изменяемая
+    } else {
+        println("${catOwner.name} владелец не кота по имени ${catOwner.pet.name}")
+    }
+    // Явные преобразования и оператор "as":
 
 }
 
@@ -38,4 +45,9 @@ fun isKitty(pet: Pet) : Boolean {
 /** Функция проверки на не котика */
 fun isNotKitty(pet: Pet) : Boolean {
     return pet !is Cat
+}
+
+/** Класс с изменяемым свойством */
+class CatOwner(val name: String) {
+    var pet: Pet = Cat("Васька", "Белый")
 }
