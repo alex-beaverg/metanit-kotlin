@@ -9,4 +9,6 @@ fun mainChapter06() {
     convertTypes()
     // Функции расширения:
     extensionFunctions()
+    // Делегированные свойства:
+    delegationProperties()
 }
