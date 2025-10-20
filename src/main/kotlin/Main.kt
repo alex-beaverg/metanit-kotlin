@@ -3,6 +3,7 @@ import chapter03.mainChapter03
 import chapter04.mainChapter04
 import chapter05.mainChapter05
 import chapter06.mainChapter06
+import chapter07.mainChapter07
 
 fun main() {
     // Глава 2:
@@ -15,4 +16,6 @@ fun main() {
     mainChapter05()
     // Глава 6:
     mainChapter06()
+    // Глава 7:
+    mainChapter07()
 }
