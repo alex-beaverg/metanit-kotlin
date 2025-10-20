@@ -11,4 +11,6 @@ fun mainChapter06() {
     extensionFunctions()
     // Делегированные свойства:
     delegationProperties()
+    // Scope-функции:
+    scopeFunctions()
 }
