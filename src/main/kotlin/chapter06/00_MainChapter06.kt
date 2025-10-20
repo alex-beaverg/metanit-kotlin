@@ -13,4 +13,6 @@ fun mainChapter06() {
     delegationProperties()
     // Scope-функции:
     scopeFunctions()
+    // Инфиксная нотация:
+    infixNotation()
 }
