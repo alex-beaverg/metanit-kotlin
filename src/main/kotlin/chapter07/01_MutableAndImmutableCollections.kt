@@ -106,4 +106,30 @@ fun mutableAndImmutableCollections() {
         }
         println()
     }
+    // Разница коллекций и последовательностей:
+    // Операция в коллекции выполняются для всех элементов, потом вторая операция
+    // Операции в коллекции выполняются вне зависимости от того используется ли коллекция потом
+    val people1 = listOf(
+        Person("Tom", 37),
+        Person("Sam", 25),
+        Person("Alice", 33)
+    )
+    println("Это выведется, хоть и не используется дальше:")
+    people1.filter { println("Age filter: $it"); it.age > 30 }
+        .filter{ println("Name filter: $it"); it.name.length == 3 }
+    // Операция в последовательности выполняется для й элемента, потом вторая операция, потом то же для следующего
+    // Операции в последовательности выполняются только там, где нужно далее по коду использовать ее
+    var people2 = sequenceOf(
+        Person("Tom", 37),
+        Person("Sam", 25),
+        Person("Alice", 33)
+    )
+    println("Это не выведется пока мы не начнем это использовать:")
+    people2 = people2.filter { println("Age filter: $it"); it.age > 30 }
+        .filter{ println("Name filter: $it"); it.name.length == 3 }
+    println("А вот тут выведется, но в порядке поэлементного прохода по всем операциям:")
+    for(person in people2) println(person)
 }
+
+/** Класс Person */
+data class Person(val name: String, val age: Int)
