@@ -90,5 +90,20 @@ fun mutableAndImmutableCollections() {
     println("Операция .take(): ${sequence.take(2).joinToString()}")
     println("Операция .toList(): ${sequence.toList()}")
     // Array:
-
+    println("Массив из null: ${arrayOfNulls<Int>(2).joinToString()}")
+    println("Массив из одинаковых значений: ${Array(3) { "Hello" }.joinToString()}")
+    val array = arrayOf(50, 125, 44, 13, 100)
+    println("Второй элемент массива: ${array[1]}")
+    array[0] = 45
+    println("Обновленный массив: ${array.joinToString()}")
+    println("Диапазон индексов массива: ${array.indices}")
+    array.forEach { println("\t- $it") }
+    array.forEachIndexed { index, element -> println("$index. $element") }
+    val squareArray = arrayOf(arrayOf(1, 2, 3), arrayOf(4, 5, 6), arrayOf(7, 8, 9))
+    for (row in squareArray) {
+        for (element in row) {
+            print("$element ")
+        }
+        println()
+    }
 }
