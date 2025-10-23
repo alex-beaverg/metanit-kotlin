@@ -1,6 +1,5 @@
 package chapter07
 
-import jdk.internal.org.jline.keymap.KeyMap.key
 import java.util.Date
 
 fun mutableAndImmutableCollections() {
@@ -53,12 +52,43 @@ fun mutableAndImmutableCollections() {
     val map = mutableMapOf(Pair(1, "One"), 2 to "Two", 3 to "Three")
     println("Карта: $map")
     map.forEach { (key, value) -> println("\t$key: $value") }
-
+    println("Значение по ключу 2 -> Two: ${map[2]}")
+    println("Значение по ключу 5 -> null: ${map[5]}")
+    println("Значение по ключу 5 с умолчанием -> default: ${map.getOrDefault(5, "default")}")
+    println("Значение по ключу 5 с ИЛИ -> Not Found: ${map.getOrElse(5){"Not Found"}}")
+    println("Ключи: ${map.keys}")
+    println("Значения: ${map.values}")
+    println("Есть ли ключ 3: ${map.containsKey(3)}")
+    println("Есть ли значение Four: ${map.containsValue("Four")}")
+    map.put(4, "Four")
+    map.putAll(mapOf(Pair(5, "Five")))
+    map[2] = "Second"
+    map.remove(1)
+    println("Обновленная карта: $map")
     // Sequence:
-    val sequence = sequenceOf(100, 200, 300)
+    val sequence = sequenceOf(100, 200, 300, 300, 400)
     println("Максимальное значение последовательности: ${sequence.max()}")
     println("Сумма элементов последовательности: ${sequence.sum()}")
-
+    println("Последовательность: ${sequence.joinToString(":", "(", ")")}")
+    println("Последовательность из множества: ${set.asSequence().joinToString(":", "(", ")")}")
+    var i = 0
+    println("Генерируем последовательность: ${generateSequence { i += 2; if (i > 13) null else i}.joinToString()}")
+    println("Генерируем последовательность иначе: ${sequence { yield(4); yield(6) }.joinToString()}")
+    println("Операция .all(): ${sequence.all { it % 100 == 0 }}")
+    println("Операция .any(): ${sequence.any { it % 150 == 0 }}")
+    println("Операция .average(): ${sequence.average()}")
+    println("Операция .chunked(): ${sequence.chunked(2).joinToString()}")
+    println("Операция .distinct(): ${sequence.distinct().joinToString()}")
+    println("Операция .drop(): ${sequence.drop(2).joinToString()}")
+    println("Операция .filter(): ${sequence.filter { it % 200 == 0 }.joinToString()}")
+    println("Операция .filterNot(): ${sequence.filterNot { it % 200 == 0 }.joinToString()}")
+    println("Операция .fold(): ${sequence.fold(0) { result, element -> result + element }}")
+    println("Операция .groupBy(): ${sequence.groupBy { it }}")
+    println("Операция .map(): ${sequence.map { it % 75 }.joinToString()}")
+    println("Операция .shuffled(): ${sequence.shuffled().joinToString()}")
+    println("Операция .sortedDescending(): ${sequence.sortedDescending().joinToString()}")
+    println("Операция .take(): ${sequence.take(2).joinToString()}")
+    println("Операция .toList(): ${sequence.toList()}")
     // Array:
 
 }
