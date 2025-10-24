@@ -85,6 +85,14 @@ fun operations() {
     println("Сведение к значению с начальным значением: ${numberList.fold(100) { a, b -> a + b }}")
 
     // СЛОЖЕНИЕ, ВЫЧИТАНИЕ И ОБЪЕДИНЕНИЕ:
+    println("Сложим список с новым элементом 143: ${numberList.plus(143)}")
+    println("Или так: ${numberList + 143}")
+    println("Отнимем от списка элемент 80: ${numberList.minus(80)}")
+    println("Или так: ${numberList - 80}")
+    println("Объединим этот список с другим: ${numberList.zip(arrayListOf(2, 24, 44, 81, 6))}")
+    println("Разъединим список: ${numberList.zip(arrayListOf(2, 24, 44, 81, 6)).unzip()}")
+
+    // ПОЛУЧЕНИЕ ЧАСТИ ЭЛЕМЕНТОВ:
 
 }
 
