@@ -35,11 +35,12 @@ fun operations() {
 
     // ГРУППИРОВКА:
     val employees = arrayListOf(
-        Employee("Дима", "Займы"),
-        Employee("Саша", "Финансовые инновации"),
-        Employee("Леша", "ДП-Core"),
-        Employee("Лена", "Займы"),
-        Employee("Таня", "ДП-Core")
+        Employee("Дима", "Займы", 25),
+        Employee("Саша", "Финансовые инновации", 30),
+        Employee("Леша", "ДП-Core", 27),
+        Employee("Лена", "Займы", 32),
+        Employee("Таня", "ДП-Core", 23),
+        Employee("Вадим", "ДП-Core", 23)
     )
     println("Группируем в карту с сотрудниками по отделам: ${employees.groupBy { it.department }}")
     println("Группируем в карту с именами сотрудников по отделам: ${employees.groupBy({ it.department }) { it.name }}")
@@ -53,14 +54,37 @@ fun operations() {
                     e2.department
                 )
             })
-        }")
-    println("Сортируем работников по имени с компаратором (более просто): ${employees.sortedWith(compareBy { it.name })}")
+        }"
+    )
+    println("Сортируем работников по возрасту с компаратором (более просто): ${employees.sortedWith(compareBy { it.age })}")
     println("Сортируем работников по отделу (критерий): ${employees.sortedBy { it.department }}")
     println("Сортируем работников по имени в обратном направлении (критерий): ${employees.sortedByDescending { it.name }}")
     println("Развернем работников: ${employees.reversed()}")
     println("Перемешаем работников: ${employees.shuffled()}")
 
     // АГРЕГАТНЫЕ ОПЕРАЦИИ:
+    val numberList = arrayListOf(1, 23, 43, 80, 5)
+    val emptyList = arrayListOf<Int>()
+    println("Максимальное значение: ${numberList.max()}")
+    println("Максимальное значение или null при пустом списке: ${emptyList.maxOrNull()}")
+    println("Минимальное значение: ${numberList.min()}")
+    println("Минимальное значение или null при пустом списке: ${emptyList.minOrNull()}")
+    println("Минимальный возраст у работника по имени ${employees.minByOrNull { it.age }}")
+    println("Минимальный возраст работника равен ${employees.minOfOrNull { it.age }}")
+    println("Максимальный возраст (с компаратором) у работника по имени ${employees.maxWithOrNull(compareBy { it.age })}")
+    println(
+        "Максимальная длина имени (с компаратором и селектором) у работника по имени ${
+            employees.maxOfWithOrNull(
+                compareBy { it.length }) { it.name }
+        }"
+    )
+    println("Среднее значение: ${numberList.average()}")
+    println("Сумма: ${numberList.sum()}")
+    println("Количество элементов: ${numberList.count()}")
+    println("Сведение к значению: ${numberList.reduce { a, b -> a * b }}")
+    println("Сведение к значению с начальным значением: ${numberList.fold(100) { a, b -> a + b }}")
+
+    // СЛОЖЕНИЕ, ВЫЧИТАНИЕ И ОБЪЕДИНЕНИЕ:
 
 }
 
@@ -73,7 +97,7 @@ open class Animal(val name: String) {
 class Cat(name: String) : Animal(name)
 
 /** Класс для группировки и сортировки */
-class Employee(val name: String, val department: String) : Comparable<Employee> {
+class Employee(val name: String, val department: String, val age: Int) : Comparable<Employee> {
     override fun toString(): String {
         return name
     }
