@@ -29,7 +29,7 @@ fun operations() {
     // ТРАНСФОРМАЦИИ:
     println("Возвращаем имена котов: ${objectList.map { it.name }}")
     println("Возвращаем имена котов с индексами + 1 элементов: ${objectList.mapIndexed { index, item -> "${index + 1}. ${item.name}" }}")
-    println("Возвращаем имена котов, исключая результаты null: ${objectList.mapNotNull { if(it.name.length == 10) null else it.name }}")
+    println("Возвращаем имена котов, исключая результаты null: ${objectList.mapNotNull { if (it.name.length == 10) null else it.name }}")
     val listOfLists = arrayListOf(listOf(1, 2, 3), listOf(5, 3))
     println("Объединяем коллекции: ${listOfLists.flatten()}")
 
@@ -45,6 +45,22 @@ fun operations() {
     println("Группируем в карту с именами сотрудников по отделам: ${employees.groupBy({ it.department }) { it.name }}")
 
     // СОРТИРОВКА:
+    println("Сортируем работников по имени: ${employees.sorted()}")
+    println(
+        "Сортируем работников по отделу с компаратором: ${
+            employees.sortedWith(Comparator { e1: Employee, e2: Employee ->
+                e1.department.compareTo(
+                    e2.department
+                )
+            })
+        }")
+    println("Сортируем работников по имени с компаратором (более просто): ${employees.sortedWith(compareBy { it.name })}")
+    println("Сортируем работников по отделу (критерий): ${employees.sortedBy { it.department }}")
+    println("Сортируем работников по имени в обратном направлении (критерий): ${employees.sortedByDescending { it.name }}")
+    println("Развернем работников: ${employees.reversed()}")
+    println("Перемешаем работников: ${employees.shuffled()}")
+
+    // АГРЕГАТНЫЕ ОПЕРАЦИИ:
 
 }
 
@@ -56,9 +72,11 @@ open class Animal(val name: String) {
 /** Класс наследник */
 class Cat(name: String) : Animal(name)
 
-/** Класс для группировки */
-class Employee(val name: String, val department: String) {
+/** Класс для группировки и сортировки */
+class Employee(val name: String, val department: String) : Comparable<Employee> {
     override fun toString(): String {
         return name
     }
+
+    override fun compareTo(other: Employee): Int = name.compareTo(other.name)
 }
