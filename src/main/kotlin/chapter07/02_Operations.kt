@@ -93,7 +93,38 @@ fun operations() {
     println("Разъединим список: ${numberList.zip(arrayListOf(2, 24, 44, 81, 6)).unzip()}")
 
     // ПОЛУЧЕНИЕ ЧАСТИ ЭЛЕМЕНТОВ:
+    val stringList = arrayListOf("Ноль", "Один", "Два", "Три", "Четыре", "Пять", "Шесть", "Семь")
+    println("Отрезаем часть списка по рангу (1..3): ${stringList.slice(1..3)}")
+    println("Отрезаем часть списка по рангу (0..6) с шагом 2: ${stringList.slice(0..6 step 2)}")
+    println("Отрезаем часть списка по списку индексов (1, 1, 3, 3): ${stringList.slice(listOf(1, 1, 3, 3))}")
+    println("Отрезаем 3 элемента списка в начале: ${stringList.take(3)}")
+    println("Отрезаем 3 элемента списка в конце: ${stringList.takeLast(3)}")
+    println("Отрезаем элементы списка с начала по условию (4 символа) пока не споткнемся на false: ${stringList.takeWhile { it.length == 4 }}")
+    println("Отрезаем элементы списка с конца по условию (4 символа) пока не споткнемся на false: ${stringList.takeLastWhile { it.length == 4 }}")
+    println("Пропускаем первые 3 элемента списка в начале: ${stringList.drop(3)}")
+    println("Пропускаем первые 3 элемента списка в конце: ${stringList.dropLast(3)}")
+    println("Пропускаем элементы списка с начала по условию (4 символа) пока не споткнемся на false: ${stringList.dropWhile { it.length == 4 }}")
+    println("Пропускаем элементы списка с конца по условию (4 символа) пока не споткнемся на false: ${stringList.dropLastWhile { it.length == 4 }}")
+    println("Делим список на части (не более 3 элементов на каждый новый список): ${stringList.chunked(3)}")
+    println(
+        "Делим список на части (не более 3 элементов на каждый новый список) и забираем в новый список только последний элементы: ${
+            stringList.chunked(
+                3
+            ) { it.last() }
+        }"
+    )
 
+    // ПОЛУЧЕНИЕ ОТДЕЛЬНЫХ ЭЛЕМЕНТОВ:
+    println("Получаем элемент по индексу: ${stringList.elementAt(1)}")
+    println("Получаем элемент по индексу вне диапазона (будет null): ${stringList.elementAtOrNull(10)}")
+    println("Получаем первый элемент: ${stringList.first()}")
+    println("Получаем последний элемент: ${stringList.last()}")
+    println("Получаем первый элемент, который соответствует условию: ${stringList.first { it.length == 3 }}")
+    println("Получаем последний элемент, который соответствует условию: ${stringList.last { it.length == 3 }}")
+    println("Получаем первый элемент, который соответствует условию (невыполнимому, будет null): ${stringList.firstOrNull { it.length == 30 }}")
+    println("Получаем последний элемент, который соответствует условию (невыполнимому, будет null): ${stringList.lastOrNull { it.length == 30 }}")
+    println("Получаем рандомный элемент: ${stringList.random()}")
+    println("Получаем рандомный элемент в пустом списке (будет null): ${ArrayList<Int>().randomOrNull()}")
 }
 
 /** Класс для наследования */
