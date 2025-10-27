@@ -6,7 +6,7 @@ import chapter06.mainChapter06
 import chapter07.mainChapter07
 import chapter08.mainChapter08
 
-fun main() {
+suspend fun main() {
     // Глава 2:
     mainChapter02()
     // Глава 3:
