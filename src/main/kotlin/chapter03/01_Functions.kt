@@ -85,7 +85,7 @@ fun functionForChangeArray(array: Array<Int>) {
 fun functionWithVariableNumberOfParameters(group: String, vararg items: String, count: Int) {
     println("Группа: $group")
     println("Количество: $count")
-    for(item in items) println("\t- член группы: $item")
+    for (item in items) println("\t- член группы: $item")
 }
 
 /** Функция, возвращающая значение */

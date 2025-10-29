@@ -3,8 +3,7 @@ package chapter08
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ReceiveChannel
-import kotlinx.coroutines.channels.consumeEach
-import kotlinx.coroutines.channels.produce
+import kotlinx.coroutines.channels.*
 
 suspend fun coroutines() {
     // Введение в coroutine:
@@ -42,7 +41,7 @@ suspend fun coroutines() {
 
 /** Функция с задержкой без coroutine */
 suspend fun withoutCoroutine() {
-    for(i in 1..4) {
+    for (i in 1..4) {
         delay(200L)
         println(i)
     }
@@ -52,7 +51,7 @@ suspend fun withoutCoroutine() {
 /** Функция с задержкой с coroutine */
 suspend fun withCoroutine() = coroutineScope {
     launch {
-        for(i in 1..4) {
+        for (i in 1..4) {
             delay(200L)
             println(i)
         }
@@ -65,13 +64,13 @@ suspend fun withCoroutine() = coroutineScope {
 /** Функция с задержкой с coroutines */
 suspend fun withCoroutines() = coroutineScope {
     launch {
-        for(i in 1..4) {
+        for (i in 1..4) {
             delay(200L)
             println(i)
         }
     }
     launch {
-        for(i in 10..40 step 10) {
+        for (i in 10..40 step 10) {
             delay(100L)
             println(i)
         }
@@ -82,7 +81,7 @@ suspend fun withCoroutines() = coroutineScope {
 /** Функция с задержкой runBlocking coroutine */
 fun withRunBlocking() = runBlocking {
     launch {
-        for(i in 1..4) {
+        for (i in 1..4) {
             delay(200L)
             println(i)
         }
@@ -106,7 +105,7 @@ suspend fun withNestedCoroutine() = coroutineScope {
 /** Функция с задержкой с coroutine с ожиданием его выполнения */
 suspend fun withJobJoin() = coroutineScope {
     val job = launch {
-        for(i in 1..4) {
+        for (i in 1..4) {
             delay(100L)
             println(i)
         }
@@ -120,7 +119,7 @@ suspend fun withJobJoin() = coroutineScope {
 /** Функция с задержкой с отложенным coroutine */
 suspend fun withLazyJob() = coroutineScope {
     val job = launch(start = CoroutineStart.LAZY) {
-        for(i in 1..4) {
+        for (i in 1..4) {
             delay(100L)
             println(i)
         }
@@ -209,7 +208,7 @@ suspend fun withDispatcherCustomNameThread() = coroutineScope {
 suspend fun withCancelCoroutine() = coroutineScope {
     val downloader: Job = launch {
         println("Начинаем загрузку файлов")
-        for(i in 1..5){
+        for (i in 1..5){
             println("Загружен файл $i")
             delay(500L)
         }
@@ -226,7 +225,7 @@ suspend fun withCancellationException() = coroutineScope {
     val downloader: Job = launch {
         try {
             println("Начинаем загрузку файлов")
-            for(i in 1..5){
+            for (i in 1..5){
                 println("Загружен файл $i")
                 delay(500L)
             }

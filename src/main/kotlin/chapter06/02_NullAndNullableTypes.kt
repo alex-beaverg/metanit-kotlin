@@ -27,12 +27,12 @@ fun nullAndNullableTypes() {
     println("Тут должен вернуться null или 5: $length1")
     println("Тут должен вернуться 0 или 5: $length2")
     // Оператор "!!" not-null assertion operator:
-    val name : String? = "Дима"
+    val name: String? = "Дима"
     val otherName: String = name!!
     println("Вот тут будет имя, потому что мы уверены что тут не null: $otherName")
     println("А вот тут возможно будет исключение и возвращаем null или имя: ${
         try {
-            val name : String? = if (Date().time % 2 == 0L) null else "Саша"
+            val name: String? = if (Date().time % 2 == 0L) null else "Саша"
             val id= name!!
             println(id)
         } catch (_: Exception) { 

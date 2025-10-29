@@ -35,4 +35,4 @@ class InStorage<in T: File>() {
 open class File(val value: String)
 
 /** Класс-наследник */
-class Picture(value: String) : File(value)
+class Picture(value: String): File(value)

@@ -54,13 +54,13 @@ class Book<K, V>(val pages: K, val price: V) {
 
 /** Функция с обобщениями */
 fun <T> getBiggest(args1: Array<T>, args2: Array<T>): Array<T> {
-    if(args1.size > args2.size) return args1
+    if (args1.size > args2.size) return args1
     return  args2
 }
 
 /** Функция с обобщениями с ограничением */
 fun <T: Comparable<T>> compareObjects(arg1: T, arg2: T): T {
-    if(arg1 > arg2) return arg1
+    if (arg1 > arg2) return arg1
     return  arg2
 }
 
@@ -70,16 +70,16 @@ interface Discount {
 }
 
 /** Функция с обобщением с ограничением */
-fun<T: Discount> calculatePrice(price: Double, discount: T) : Double {
+fun<T: Discount> calculatePrice(price: Double, discount: T): Double {
     return price * discount.discountValue
 }
 
 /** Класс с ограниченным обобщением, реализующий интерфейс */
-class DiscountPrice(override val discountValue: Double) : Discount
+class DiscountPrice(override val discountValue: Double): Discount
 
 /** Функция с обобщениями с двойным ограничением */
-fun <T> compareNumbers(arg1: T, arg2: T) : T where T : Comparable<T>, T: Number {
-    if(arg1 > arg2) return arg1
+fun <T> compareNumbers(arg1: T, arg2: T): T where T: Comparable<T>, T: Number {
+    if (arg1 > arg2) return arg1
     return  arg2
 }
 
@@ -101,7 +101,7 @@ interface Logger {
 }
 
 /** Класс с ограничениями обобщения, реализующий интерфейсы */
-class EmailMessage(override val text: String) : Message, Logger {
+class EmailMessage(override val text: String): Message, Logger {
     override fun log() = println("Отправка Е-мэйл: $text")
 }
 

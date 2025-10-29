@@ -1,6 +1,6 @@
 package chapter09
 
-fun mainChapter09() {
+suspend fun mainChapter09() {
     // Асинхронные потоки:
     asyncThreads()
 }

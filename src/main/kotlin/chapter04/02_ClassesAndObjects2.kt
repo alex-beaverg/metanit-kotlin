@@ -133,7 +133,7 @@ class CardOwnerWithInterface(val fullName: String, cardType: String, cardNumber:
         fun check()
     }
 
-    private class Card(val cardType: String, val cardNumber: String) : ICheck {
+    private class Card(val cardType: String, val cardNumber: String): ICheck {
         override fun check() {
             println("Проверка номера карты $cardNumber прошла успешно")
         }
@@ -257,10 +257,10 @@ interface IVelocity {
 class Speedometer(override val velocity: Int): IVelocity
 
 /** Класс Helicopter с делегированием свойства velocity объекту "v" */
-class Helicopter(v: IVelocity) : IVelocity by v
+class Helicopter(v: IVelocity): IVelocity by v
 
 /** Класс Plane с переопределением свойства velocity */
-class Plane(v: IVelocity) : IVelocity by v {
+class Plane(v: IVelocity): IVelocity by v {
     override val velocity = 975
 }
 

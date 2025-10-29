@@ -128,7 +128,7 @@ fun mutableAndImmutableCollections() {
     people2 = people2.filter { println("Age filter: $it"); it.age > 30 }
         .filter{ println("Name filter: $it"); it.name.length == 3 }
     println("А вот тут выведется, но в порядке поэлементного прохода по всем операциям:")
-    for(person in people2) println(person)
+    for (person in people2) println(person)
 }
 
 /** Класс Person */

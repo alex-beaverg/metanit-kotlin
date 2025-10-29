@@ -133,10 +133,10 @@ open class Animal(val name: String) {
 }
 
 /** Класс наследник */
-class Cat(name: String) : Animal(name)
+class Cat(name: String): Animal(name)
 
 /** Класс для группировки и сортировки */
-class Employee(val name: String, val department: String, val age: Int) : Comparable<Employee> {
+class Employee(val name: String, val department: String, val age: Int): Comparable<Employee> {
     override fun toString(): String {
         return name
     }

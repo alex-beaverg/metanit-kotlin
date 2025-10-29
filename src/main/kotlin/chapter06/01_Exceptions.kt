@@ -24,13 +24,13 @@ fun handleException(a: Int, b: Int) {
         println("Результат деления на ноль - Исключение")
         println("Базовое сообщение от исключения: ${e.message}")
         println("Информация по обработанному исключению")
-        for(line in e.stackTrace) {
+        for (line in e.stackTrace) {
             println("at $line")
         }
     } catch (e: Exception) {
         println("Базовое сообщение от исключения: ${e.message}")
         println("Информация по обработанному исключению")
-        for(line in e.stackTrace) {
+        for (line in e.stackTrace) {
             println("at $line")
         }
     } finally {
@@ -39,8 +39,8 @@ fun handleException(a: Int, b: Int) {
 }
 
 /** Функция с пробросом исключения */
-fun throwException(age: Int) : Int {
-    if(age < 1 || age > 125) throw Exception("Некорректное значение возраста: $age")
+fun throwException(age: Int): Int {
+    if (age < 1 || age > 125) throw Exception("Некорректное значение возраста: $age")
     println("Возраст $age корректен")
     return age
 }

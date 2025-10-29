@@ -60,7 +60,7 @@ class Person(val name: String, val age: Int) {
     }
 
     override operator fun equals(other: Any?): Boolean {
-        if(other is Person) return this.name == other.name && this.age == other.age
+        if (other is Person) return this.name == other.name && this.age == other.age
         return false
     }
 
