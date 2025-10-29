@@ -1,8 +1,12 @@
 package chapter08
 
 import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.ReceiveChannel
+import kotlinx.coroutines.channels.consumeEach
+import kotlinx.coroutines.channels.produce
 
-suspend fun coroutines1() {
+suspend fun coroutines() {
     // Введение в coroutine:
     println("Без coroutine:")
     withoutCoroutine()
@@ -24,7 +28,16 @@ suspend fun coroutines1() {
     // Объект с отложенным Deferred и ожидание await() на несколько coroutine (запускаются пока не закончит предыдущий):
     withDeferredLazyAwaitCoroutines()
     // Диспетчер coroutine:
-
+    withDispatcherDefault()
+    withDispatcherUnconfined()
+    withDispatcherCustomNameThread()
+    // Отмена выполнения coroutine:
+    withCancelCoroutine()
+    // CancellationException:
+    withCancellationException()
+    // Каналы:
+    withChannel()
+    withReceiveChannel(listOf("Леша", "Дима", "Лена"))
 }
 
 /** Функция с задержкой без coroutine */
@@ -161,4 +174,105 @@ suspend fun withDeferredLazyAwaitCoroutines() = coroutineScope {
     println("Сообщение: ${message2.await()}")
     println("Сообщение: ${message3.await()}")
     println("Сообщения получены, программа завершена!")
+}
+
+/** Функция с указанием потока для coroutine - Default */
+suspend fun withDispatcherDefault() = coroutineScope {
+    launch(Dispatchers.Default) {
+        println("Coroutine выполняется на потоке: ${Thread.currentThread().name}")
+    }
+    println("Не coroutine выполняется на потоке: ${Thread.currentThread().name}")
+}
+
+/** Функция с указанием потока для coroutine - Unconfined */
+suspend fun withDispatcherUnconfined() = coroutineScope {
+    launch(Dispatchers.Unconfined) {
+        println("Поток coroutine (до остановки): ${Thread.currentThread().name}")
+        delay(500L)
+        println("Поток coroutine (после остановки): ${Thread.currentThread().name}")
+    }
+    println("Поток не coroutine: ${Thread.currentThread().name}")
+}
+
+/** Функция с указанием потока для coroutine - Custom Thread */
+@OptIn(ExperimentalCoroutinesApi::class, DelicateCoroutinesApi::class)
+suspend fun withDispatcherCustomNameThread() = coroutineScope {
+    val context = newSingleThreadContext("Custom Thread")
+    launch(context) {
+        println("Поток coroutine: ${Thread.currentThread().name}")
+    }
+    context.close()
+    println("Поток не coroutine: ${Thread.currentThread().name}")
+}
+
+/** Функция с отменой coroutine */
+suspend fun withCancelCoroutine() = coroutineScope {
+    val downloader: Job = launch {
+        println("Начинаем загрузку файлов")
+        for(i in 1..5){
+            println("Загружен файл $i")
+            delay(500L)
+        }
+    }
+    delay(800L)
+    println("Прерываем загрузку...")
+    downloader.cancel()
+    downloader.join() // Можно использовать 1 метод вместо двух - cancelAndJoin()
+    println("Работа программы завершена")
+}
+
+/** Функция с обработкой отмены coroutine */
+suspend fun withCancellationException() = coroutineScope {
+    val downloader: Job = launch {
+        try {
+            println("Начинаем загрузку файлов")
+            for(i in 1..5){
+                println("Загружен файл $i")
+                delay(500L)
+            }
+        }
+        catch (e: CancellationException) {
+            println("Загрузка файлов прервана: ${e.message}")
+        }
+        finally {
+            println("Загрузка завершена")
+        }
+    }
+    delay(800L)
+    println("Прерываем загрузку...")
+    downloader.cancelAndJoin()
+    println("Работа программы завершена")
+}
+
+/** Функция с передачей coroutine в канал */
+suspend fun withChannel() = coroutineScope {
+    val channel = Channel<Int>()
+    println("Передаем данные в канал")
+    launch {
+        for (n in 1..5) {
+            channel.send(n)
+        }
+        channel.close()
+    }
+    repeat(5) {
+        val number = channel.receive()
+        println("Получен $number элемент")
+    }
+    println("Данные из канала получены")
+}
+
+/** Функция для получения данных coroutine из канала ReceiveChannel */
+suspend fun withReceiveChannel(users: List<String>) = coroutineScope {
+    val users = getUsers(users)
+    users.consumeEach { user -> println(user) }
+    println("Данные из канала получены")
+}
+
+/** Функция для передачи coroutine в канал ReceiveChannel */
+@OptIn(ExperimentalCoroutinesApi::class)
+fun CoroutineScope.getUsers(users: List<String>): ReceiveChannel<String> = produce {
+    println("Передаем данные в канал")
+    for (user in users) {
+        send(user)
+    }
 }

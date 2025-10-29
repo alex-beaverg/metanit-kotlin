@@ -5,6 +5,7 @@ import chapter05.mainChapter05
 import chapter06.mainChapter06
 import chapter07.mainChapter07
 import chapter08.mainChapter08
+import chapter09.mainChapter09
 
 suspend fun main() {
     // Глава 2:
@@ -21,4 +22,6 @@ suspend fun main() {
     mainChapter07()
     // Глава 8:
     mainChapter08()
+    // Глава 9:
+    mainChapter09()
 }
